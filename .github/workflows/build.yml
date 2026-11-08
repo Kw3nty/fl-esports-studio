@@ -46,7 +46,7 @@ jobs:
       - name: Build exe and zip
         run: ./build.ps1
 
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         with:
           name: FL-Esports-Studio-windows-x64
           path: |
