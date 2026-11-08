@@ -1,0 +1,241 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<title>FL Esports Studio — настройка FL·ESPORTS Q75</title>
+<style>/*@@CSS@@*/</style>
+</head>
+<body>
+<div class="app">
+  <nav class="rail" aria-label="Разделы">
+    <div class="rail-brand" title="FL Esports Studio"><span class="brand-mark" aria-hidden="true"></span></div>
+    <button data-page="light" class="active" aria-current="page"><span data-icon="light"></span><span class="rl">Подсветка</span></button>
+    <button data-page="keys"><span data-icon="keyboard"></span><span class="rl">Клавиши</span></button>
+    <button data-page="macros"><span data-icon="macro"></span><span class="rl">Макросы</span></button>
+    <button data-page="settings"><span data-icon="sliders"></span><span class="rl">Настройки</span></button>
+    <button data-page="log"><span data-icon="list"></span><span class="rl">Журнал</span></button>
+    <div class="rail-sp"></div>
+    <button data-page="help"><span data-icon="help"></span><span class="rl">Справка</span></button>
+  </nav>
+
+  <div class="workspace">
+    <header class="ws-head">
+      <div class="ws-title">
+        <div class="eyebrow" id="eyebrow">Подсветка</div>
+        <label class="dev-pick"><span class="sr-only">Устройство</span><select id="devSel"></select><span data-icon="chevron"></span></label>
+      </div>
+      <div class="spacer"></div>
+      <div class="head-status">
+        <div class="hs-item" role="status"><span class="dot" id="drvDot"></span><span id="drvText">Служба драйвера…</span></div>
+        <div class="hs-item" id="devStatus" role="status"></div>
+      </div>
+      <div class="dev-card" id="navFoot"></div>
+    </header>
+
+    <div class="ws-body" id="content">
+      <div id="noDev" class="empty" hidden></div>
+
+      <!-- ПОДСВЕТКА -->
+      <section class="page split active" id="page-light" aria-label="Подсветка">
+        <aside class="panel" aria-label="Параметры подсветки">
+          <div class="panel-title"><h1>Подсветка</h1><div class="apply-state" id="lightState" aria-live="polite"></div></div>
+          <div class="p-section">
+            <div class="p-label">Эффект</div>
+            <button class="effect-btn" id="effectBtn" aria-haspopup="dialog" aria-expanded="false"><span id="effectName">—</span><span data-icon="chevron"></span></button>
+          </div>
+          <div class="p-section" id="fBright"><div class="p-row"><label class="p-label" for="bright">Яркость</label><output id="vBright"></output></div>
+            <input type="range" id="bright" min="0" max="4" step="1"></div>
+          <div class="p-section" id="fSpeed"><div class="p-row"><label class="p-label" for="speed">Скорость</label><output id="vSpeed"></output></div>
+            <input type="range" id="speed" min="0" max="4" step="1"></div>
+          <div class="p-section" id="fOpt"><div class="p-label" id="optLabel">Направление</div><div class="seg wide" id="opts" role="radiogroup" aria-labelledby="optLabel"></div></div>
+          <div class="p-section" id="fPic" hidden>
+            <div class="p-row"><span class="p-label">Цвета клавиш</span><span class="pic-state" id="upState"></span></div>
+            <p class="hint" style="margin:0 0 10px">Нажмите на клавишу или проведите по клавишам справа, чтобы закрасить их выбранным цветом.</p>
+            <div class="seg wide" id="picTool" role="radiogroup" aria-label="Инструмент">
+              <button data-t="paint" class="on" role="radio" aria-checked="true">Кисть</button><button data-t="pick" role="radio" aria-checked="false">Пипетка</button><button data-t="erase" role="radio" aria-checked="false">Ластик</button>
+            </div>
+            <div id="cpPic" style="margin-top:12px"></div>
+            <div class="swatches" id="picSw" role="radiogroup" aria-label="Быстрые цвета"></div>
+            <div class="pic-actions">
+              <button class="btn ghost" id="picFill">Залить всё</button>
+              <button class="btn ghost" id="picClear">Очистить</button>
+              <button class="btn ghost" id="picUndo"><span data-icon="undo"></span>Отменить</button>
+            </div>
+            <button class="btn primary pic-save" id="picSave"><span data-icon="save"></span><span id="picSaveText">Записать в клавиатуру</span></button>
+          </div>
+          <div class="p-section" id="fLive" hidden>
+            <div class="p-row"><span class="p-label">Источник</span><span class="pic-state" id="liveState"></span></div>
+            <p class="hint" id="liveHint" style="margin:0"></p>
+          </div>
+          <div class="p-section" id="fColor">
+            <div class="p-row"><span class="p-label">Цвет</span><span class="color-dot" id="colorDot" aria-hidden="true"></span></div>
+            <label class="switch"><input type="checkbox" id="rainbow"><span class="track"></span><span>Радуга</span></label>
+            <p class="hint" id="rainbowHint" style="margin:4px 0 0">Выберите цвет ниже, чтобы выключить радугу.</p>
+            <div id="cp"></div>
+            <div class="p-label sm">Стандартные</div>
+            <div class="swatches" id="swatches" role="radiogroup" aria-label="Стандартные цвета"></div>
+            <div class="p-label sm">Свои</div>
+            <div class="swatches" id="customSw" aria-label="Свои цвета"></div>
+          </div>
+        </aside>
+        <section class="stage" aria-label="Предпросмотр">
+          <h2 class="stage-title" id="curEffect">Подсветка</h2>
+          <div class="kbstage" id="kbStage"><canvas class="underglow" id="glowCanvas" aria-hidden="true"></canvas><div class="kb lit" id="kbLight" aria-label="Предпросмотр подсветки"></div><div class="kb3d" id="kb3d" aria-label="3D-модель клавиатуры"></div></div>
+          <div class="stage-foot"><div class="seg" id="viewSeg" role="radiogroup" aria-label="Вид предпросмотра"><button data-v="3d" class="on">3D</button><button data-v="2d">Плоский</button></div><p class="stage-note" id="stageNote">Предпросмотр приблизительный: точный рисунок эффекта задаёт прошивка.</p></div>
+        </section>
+        <div class="popover" id="effectPop" role="dialog" aria-label="Выбор эффекта" hidden><div id="effectGroups"></div></div>
+      </section>
+
+      <!-- КЛАВИШИ -->
+      <section class="page split" id="page-keys" aria-label="Клавиши">
+        <aside class="panel" aria-label="Назначение клавиши">
+          <div class="panel-title"><h1>Назначение</h1></div>
+          <div id="selPanel"></div>
+          <div class="picker" id="picker"><div class="tabs" id="pickTabs" role="tablist"></div><div class="pick-body" id="pickBody"></div></div>
+        </aside>
+        <section class="stage" aria-label="Схема клавиатуры">
+          <div class="stage-bar">
+            <div class="seg" id="layerSeg" role="tablist" aria-label="Слой"><button data-l="base" class="on" role="tab">Основной слой</button><button data-l="fn" role="tab">Слой Fn</button></div>
+            <div class="seg" id="isoSeg" aria-label="Форма раскладки"><button data-iso="0" class="on">ANSI</button><button data-iso="1">ISO</button></div>
+            <div class="spacer"></div>
+            <button class="btn ghost" id="btnReload"><span data-icon="refresh"></span>Прочитать</button>
+            <div class="menu-wrap">
+              <button class="btn ghost icon-only" id="btnMore" aria-haspopup="menu" aria-expanded="false" aria-label="Ещё действия"><span data-icon="more"></span></button>
+              <div class="menu" id="moreMenu" role="menu" hidden>
+                <button role="menuitem" id="btnExport"><span data-icon="download"></span>Сохранить в файл</button>
+                <label role="menuitem" class="menu-item" for="fileImport"><span data-icon="upload"></span>Загрузить из файла</label>
+                <div class="menu-sep"></div>
+                <button role="menuitem" id="btnDefaults" class="danger-text"><span data-icon="reset"></span>Заводская раскладка слоя</button>
+              </div>
+            </div>
+            <input type="file" id="fileImport" accept=".json" hidden>
+          </div>
+          <div id="keysBanner"></div>
+          <h2 class="stage-title" id="keysTitle">Основной слой</h2>
+          <div class="kbstage"><div class="kb" id="kbKeys" role="grid" aria-label="Схема клавиатуры"></div></div>
+          <div class="legend" aria-hidden="true"><span><i class="lg sel"></i>Выбрана</span><span><i class="lg changed"></i>Изменена, не записана</span><span><i class="lg remapped"></i>Отличается от заводской</span></div>
+          <div class="savebar" id="saveBar" hidden>
+            <span data-icon="info"></span><span id="saveText"></span><div class="spacer"></div>
+            <button class="btn ghost" id="btnUndo"><span data-icon="undo"></span>Отменить</button>
+            <button class="btn primary" id="btnWrite"><span data-icon="save"></span><span id="writeText">Записать</span></button>
+          </div>
+        </section>
+      </section>
+
+      <!-- МАКРОСЫ -->
+      <section class="page split" id="page-macros" aria-label="Макросы">
+        <aside class="panel" aria-label="Список макросов">
+          <div class="panel-title"><h1>Макросы</h1></div>
+          <div class="row" style="margin-bottom:16px"><button class="btn primary" id="btnNewMacro"><span data-icon="plus"></span>Новый макрос</button>
+            <button class="btn ghost icon-only" id="btnReadMacros" title="Прочитать с клавиатуры" aria-label="Прочитать макросы с клавиатуры"><span data-icon="refresh"></span></button></div>
+          <div class="macro-list" id="macroList" role="listbox" aria-label="Макросы"></div>
+          <p class="hint">В памяти клавиатуры 20 ячеек для макросов. Чтобы макрос срабатывал, назначьте его на клавишу на вкладке «Клавиши».</p>
+        </aside>
+        <section class="stage macro-stage" aria-label="Редактор макроса">
+          <div id="macroEmpty" class="macro-empty"><span data-icon="macro"></span><h2>Выберите макрос или создайте новый</h2><p>Макрос — это последовательность нажатий и пауз, которую клавиатура воспроизводит одной клавишей.</p></div>
+          <div id="macroEditor" hidden>
+            <div class="me-head">
+              <input class="me-name" id="macroName" maxlength="32" aria-label="Название макроса" spellcheck="false">
+              <span class="me-slot" id="macroSlot"></span>
+              <div class="spacer"></div>
+              <button class="btn ghost" id="btnDelMacro"><span data-icon="trash"></span>Удалить</button>
+            </div>
+            <div class="me-uses" id="macroUses"></div>
+            <div class="me-toolbar">
+              <button class="btn rec" id="btnRec"><span data-icon="record"></span><span id="recText">Записать</span></button>
+              <label class="switch"><input type="checkbox" id="recDelays" checked><span class="track"></span><span>Записывать паузы</span></label>
+              <label class="me-fixed" id="fixedWrap">Пауза по умолчанию <input type="number" class="input" id="fixedDelay" min="1" max="65535" value="20"> мс</label>
+              <div class="spacer"></div>
+              <div class="menu-wrap"><button class="btn ghost" id="btnAddEv" aria-haspopup="menu" aria-expanded="false"><span data-icon="plus"></span>Добавить</button>
+                <div class="menu" id="addMenu" role="menu" hidden>
+                  <button role="menuitem" data-add="delay"><span data-icon="clock"></span>Паузу</button>
+                  <button role="menuitem" data-add="key"><span data-icon="keyboard"></span>Нажатие клавиши</button>
+                  <button role="menuitem" data-add="mouse"><span data-icon="mouse"></span>Кнопку мыши</button>
+                </div></div>
+              <button class="btn ghost" id="btnClearEv"><span data-icon="x"></span>Очистить</button>
+            </div>
+            <div class="rec-banner" id="recBanner" hidden><span class="rec-dot"></span><span>Идёт запись. Нажимайте клавиши — паузы между ними сохраняются. Остановите запись кнопкой «Стоп».</span></div>
+            <div class="add-row" id="addRow" hidden></div>
+            <ol class="events" id="eventList" aria-label="Шаги макроса"></ol>
+            <div class="me-foot">
+              <label class="me-repeat" title="Сколько раз проигрывать макрос в режиме «N раз»">Повторов <input type="number" class="input" id="macroRepeat" min="1" max="65535" value="1"></label>
+              <div class="me-meter"><div class="meter"><i id="meterFill"></i></div><span id="meterText"></span></div>
+              <div class="spacer"></div>
+              <button class="btn" id="btnAssignMacro"><span data-icon="keyboard"></span>Назначить на клавишу</button>
+              <button class="btn primary" id="btnSaveMacro"><span data-icon="save"></span>Записать в клавиатуру</button>
+            </div>
+          </div>
+        </section>
+      </section>
+
+      <!-- НАСТРОЙКИ -->
+      <section class="page full" id="page-settings" aria-label="Настройки">
+        <h1 class="full-title">Настройки</h1>
+        <div class="grid2">
+          <div class="card"><h2 class="card-title">Частота опроса</h2>
+            <div class="seg" id="rateSeg" role="radiogroup" aria-label="Частота опроса"></div>
+            <p class="hint">1000 Гц — минимальная задержка. Меньшие значения экономят батарею в беспроводном режиме.</p></div>
+          <div class="card"><h2 class="card-title">Антидребезг</h2>
+            <div class="p-row"><label class="p-label" for="deb">Задержка срабатывания</label><output id="vDeb"></output></div>
+            <input type="range" id="deb" min="0" max="10" step="1">
+            <p class="hint">Увеличьте, если клавиша иногда срабатывает дважды.</p></div>
+          <div class="card"><h2 class="card-title">Функции</h2>
+            <label class="switch row-switch"><input type="checkbox" id="optWin"><span class="track"></span><span><b>Блокировка клавиши Win</b><small>Защищает от случайного выхода из игры</small></span></label>
+            <label class="switch row-switch"><input type="checkbox" id="optWasd"><span class="track"></span><span><b>WASD и стрелки местами</b><small>WASD работают как стрелки и наоборот</small></span></label></div>
+          <div class="card"><h2 class="card-title">Сон в беспроводном режиме</h2>
+            <div class="form-grid">
+              <label class="field-sm">Bluetooth, мин<input type="number" class="input" id="slBt" min="0" max="60"></label>
+              <label class="field-sm">2.4G, мин<input type="number" class="input" id="slRf" min="0" max="60"></label>
+              <label class="field-sm">Глубокий сон BT, мин<input type="number" class="input" id="slDBt" min="0" max="60"></label>
+              <label class="field-sm">Глубокий сон 2.4G, мин<input type="number" class="input" id="slDRf" min="0" max="60"></label>
+            </div>
+            <div class="row"><button class="btn" id="btnSleep"><span data-icon="save"></span>Сохранить</button><span class="hint" style="margin:0">0 — не засыпать</span></div></div>
+        </div>
+        <div class="card"><h2 class="card-title">Об устройстве</h2><dl class="info" id="devInfo"></dl></div>
+        <div class="card danger-card"><h2 class="card-title">Сброс к заводским настройкам</h2>
+          <p class="hint" style="margin:0 0 16px">Вернёт раскладку, подсветку и все параметры к исходным. Отменить нельзя.</p>
+          <button class="btn danger" id="btnReset"><span data-icon="reset"></span>Сбросить клавиатуру</button></div>
+      </section>
+
+      <!-- ЖУРНАЛ -->
+      <section class="page full" id="page-log" aria-label="Журнал">
+        <h1 class="full-title">Журнал обмена</h1>
+        <div class="row" style="margin-bottom:12px"><label class="switch"><input type="checkbox" id="logOn" checked><span class="track"></span><span>Записывать</span></label><div class="spacer"></div>
+          <button class="btn ghost" id="btnLogCopy"><span data-icon="copy"></span>Копировать</button><button class="btn ghost" id="btnLogClear"><span data-icon="trash"></span>Очистить</button></div>
+        <div class="log" id="log" tabindex="0" aria-label="Журнал"></div>
+      </section>
+
+      <!-- СПРАВКА -->
+      <section class="page full" id="page-help" aria-label="Справка">
+        <h1 class="full-title">Справка</h1>
+        <div class="card prose"><h2 class="card-title">Как это работает</h2>
+          <p>FL Esports Studio — программа настройки FL·ESPORTS Q75 с собственным интерфейсом и реализацией протокола клавиатуры. Для доступа к USB используется фоновая служба <code>iot_driver.exe</code> из оригинального комплекта: она только передаёт пакеты.</p>
+          <p>Запускайте <kbd>FL Esports Studio.exe</kbd>: он сам найдёт и запустит службу, а при закрытии окна остановит её. Оригинальный F. L Driver при этом лучше закрыть.</p></div>
+        <div class="card prose"><h2 class="card-title">Если клавиатура не находится</h2>
+          <ol><li>Подключите клавиатуру кабелем — это самый надёжный режим для настройки.</li>
+          <li>Проверьте, что индикатор службы драйвера зелёный. Если нет — положите iot_driver.exe рядом с FL Esports Studio.exe и перезапустите программу.</li>
+          <li>В списке устройств выберите «Показать все HID-устройства» и пришлите журнал разработчику.</li></ol></div>
+        <div class="card prose"><h2 class="card-title">Как сделать макрос</h2>
+          <ol><li>Откройте раздел «Макросы» и нажмите «Новый макрос». Дайте ему название.</li>
+          <li>Нажмите «Записать» и наберите нужную последовательность на любой клавиатуре. Паузы между нажатиями запишутся сами. Чтобы паузы были одинаковыми, выключите «Записывать паузы» и задайте паузу по умолчанию.</li>
+          <li>Нажмите «Стоп». Шаги можно поправить: изменить паузу, переставить стрелками, удалить, добавить клавишу, паузу или кнопку мыши через «Добавить».</li>
+          <li>Нажмите «Записать в клавиатуру».</li>
+          <li>Нажмите «Назначить на клавишу», выберите клавишу на схеме, режим и макрос, затем «Записать». Режимы: «N раз» — проиграть заданное число повторов; «Пока нажата» — повторять, пока клавиша зажата; «Вкл / выкл» — первое нажатие запускает повтор, второе останавливает.</li></ol>
+          <p>В клавиатуре 20 ячеек. Один макрос занимает до 248 байт — примерно 60 нажатий с паузами.</p></div>
+        <div class="card prose"><h2 class="card-title">Горячие клавиши</h2>
+          <p><kbd>Ctrl</kbd> + <kbd>S</kbd> — записать раскладку, <kbd>Ctrl</kbd> + <kbd>Z</kbd> — отменить изменения, <kbd>Esc</kbd> — снять выделение или закрыть окно.</p></div>
+      </section>
+    </div>
+  </div>
+</div>
+<div class="toasts" id="toasts" aria-live="polite"></div>
+<div class="busy" id="busy" hidden><div class="busy-box" role="alertdialog" aria-live="assertive"><span class="spinner" aria-hidden="true"></span><span id="busyText">Подождите…</span></div></div>
+<dialog id="dlg" class="dialog" aria-labelledby="dlgTitle"><form method="dialog">
+  <h2 id="dlgTitle"></h2><p id="dlgText"></p>
+  <div class="dlg-actions"><button class="btn ghost" value="cancel" id="dlgCancel">Отмена</button><button class="btn primary" value="ok" id="dlgOk">OK</button></div>
+</form></dialog>
+<script>/*@@JS@@*/</script>
+</body>
+</html>

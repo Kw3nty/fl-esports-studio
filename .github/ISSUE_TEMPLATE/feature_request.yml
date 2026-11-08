@@ -1,0 +1,27 @@
+name: Идея
+description: Предложить новую возможность (feature request)
+labels: [enhancement]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Что хочется сделать
+      description: Опишите задачу, а не только решение
+    validations:
+      required: true
+  - type: textarea
+    id: solution
+    attributes:
+      label: Как это могло бы выглядеть
+  - type: dropdown
+    id: area
+    attributes:
+      label: Раздел
+      options:
+        - Подсветка
+        - Своя схема
+        - Под музыку / цвет экрана
+        - Клавиши
+        - Макросы
+        - Настройки
+        - Другое

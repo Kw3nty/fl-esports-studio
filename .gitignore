@@ -1,0 +1,19 @@
+# Результаты сборки
+/dist/
+/release/
+/launcher/ui/*.html
+*.exe
+*.zip
+
+# Служба производителя: проприетарная, не коммитить
+iot_driver*
+
+# Инструменты и ОС
+node_modules/
+__pycache__/
+*.log
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+desktop.ini

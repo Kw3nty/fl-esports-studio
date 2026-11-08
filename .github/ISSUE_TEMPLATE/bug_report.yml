@@ -1,0 +1,62 @@
+name: Ошибка
+description: Что-то работает не так (bug report)
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Спасибо за отчёт! Перед отправкой убедитесь, что оригинальный F. L Driver закрыт: две программы мешают друг другу.
+  - type: input
+    id: version
+    attributes:
+      label: Версия FL Esports Studio
+      placeholder: "1.6.0"
+    validations:
+      required: true
+  - type: dropdown
+    id: revision
+    attributes:
+      label: Клавиатура
+      description: Ревизия видна на вкладке «Настройки»
+      options:
+        - Q75 (yc200_k232)
+        - Q75 с крутилкой (yc300_k239)
+        - Другая / не знаю
+    validations:
+      required: true
+  - type: dropdown
+    id: connection
+    attributes:
+      label: Подключение
+      options:
+        - USB-кабель
+        - 2.4G-приёмник
+        - Другое
+    validations:
+      required: true
+  - type: input
+    id: windows
+    attributes:
+      label: Windows
+      placeholder: "Windows 11 24H2"
+  - type: textarea
+    id: what
+    attributes:
+      label: Что произошло
+      description: Шаги для воспроизведения, что ожидали и что получилось
+      placeholder: |
+        1. Открыть «Подсветка»
+        2. Выбрать «Под музыку»
+        3. ...
+    validations:
+      required: true
+  - type: textarea
+    id: log
+    attributes:
+      label: Журнал
+      description: Последние строки с вкладки «Журнал», если ошибка связана с клавиатурой
+      render: text
+  - type: textarea
+    id: extra
+    attributes:
+      label: Скриншоты и прочее

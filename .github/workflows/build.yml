@@ -1,0 +1,88 @@
+name: Build
+
+on:
+  push:
+    branches: [main]
+    tags: ['v*']
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.13'
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version: '24'
+
+      - uses: actions/setup-go@v6
+        with:
+          go-version-file: launcher/go.mod
+          cache-dependency-path: launcher/go.sum
+
+      - name: Build HTML
+        run: python build.py
+
+      - name: JS tests
+        run: |
+          node test/unit.js
+          node test/userpic.js
+
+      - name: Go tests
+        run: |
+          Copy-Item dist/FLEsportsStudio.html launcher/ui/ -Force
+          Set-Location launcher
+          go test ./...
+
+      - name: Build exe and zip
+        run: ./build.ps1
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: FL-Esports-Studio-windows-x64
+          path: |
+            release/*.zip
+            release/SHA256SUMS.txt
+          if-no-files-found: error
+
+  release:
+    if: startsWith(github.ref, 'refs/tags/v')
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/download-artifact@v5
+        with:
+          name: FL-Esports-Studio-windows-x64
+          path: release
+
+      - name: Release notes from CHANGELOG.md
+        shell: pwsh
+        env:
+          TAG: ${{ github.ref_name }}
+        run: |
+          $v = $env:TAG.TrimStart('v')
+          $text = Get-Content CHANGELOG.md -Raw -Encoding utf8
+          $m = [regex]::Match($text, '(?ms)^## \[' + [regex]::Escape($v) + '\][^\n]*\n(.*?)(?=^## \[|^\[|\z)')
+          $notes = if ($m.Success) { $m.Groups[1].Value.Trim() } else { "FL Esports Studio $v" }
+          Set-Content release/NOTES.md $notes -Encoding utf8
+
+      - uses: softprops/action-gh-release@v2
+        with:
+          name: FL Esports Studio ${{ github.ref_name }}
+          body_path: release/NOTES.md
+          files: |
+            release/*.zip
+            release/SHA256SUMS.txt
