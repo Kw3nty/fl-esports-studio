@@ -79,7 +79,7 @@ jobs:
           $notes = if ($m.Success) { $m.Groups[1].Value.Trim() } else { "FL Esports Studio $v" }
           Set-Content release/NOTES.md $notes -Encoding utf8
 
-      - uses: softprops/action-gh-release@v2
+      - uses: softprops/action-gh-release@v3
         with:
           name: FL Esports Studio ${{ github.ref_name }}
           body_path: release/NOTES.md
