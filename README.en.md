@@ -21,6 +21,7 @@
   <img alt="Go 1.24" src="https://img.shields.io/badge/Go-1.24-00ADD8?logo=go&logoColor=white">
   <img alt="Vanilla JS + three.js" src="https://img.shields.io/badge/UI-vanilla%20JS%20%2B%20three.js-F7DF1E?logo=javascript&logoColor=black">
   <img alt="No telemetry" src="https://img.shields.io/badge/telemetry-none-success">
+  <a href="#support-the-project"><img alt="Donate: USDT" src="https://img.shields.io/badge/donate-USDT-26A17B?logo=tether&logoColor=white"></a>
 </p>
 
 <p align="center">
@@ -121,6 +122,27 @@ go build -trimpath -ldflags "-H windowsgui -s -w" -o "..\dist\FL Esports Studio.
 ```
 
 Tests: `node test/unit.js`, `node test/userpic.js`, `go test ./...` in `launcher/`, and `node test/e2e.js` (needs Playwright). Screenshots and the GIF are generated with `node tools/screenshots.js`. See [CONTRIBUTING.md](CONTRIBUTING.md) for details.
+
+## Support the project
+
+FL Esports Studio is free, open source and ad-free. If it is useful to you, you can buy the author a coffee ☕
+
+**USDT TRC-20 (Tron)**
+
+```text
+TVGbahTRp8QjrU4pHxrop7VNdQ5xhoTngZ
+```
+
+**USDT ERC-20 (Ethereum)**
+
+```text
+0x3A0a4287A488C6C8BCFBc8e8acD1409b8ffE48E0
+```
+
+> [!IMPORTANT]
+> Send only USDT and only on the network listed for that address, otherwise the transfer will be lost. QR codes for mobile wallets are in the [Donate section on fbads.fun](https://fbads.fun/#donate).
+
+Thank you! 🙏
 
 ## License
 

@@ -21,6 +21,7 @@
   <img alt="Go 1.24" src="https://img.shields.io/badge/Go-1.24-00ADD8?logo=go&logoColor=white">
   <img alt="Vanilla JS + three.js" src="https://img.shields.io/badge/UI-vanilla%20JS%20%2B%20three.js-F7DF1E?logo=javascript&logoColor=black">
   <img alt="No telemetry" src="https://img.shields.io/badge/telemetry-none-success">
+  <a href="#поддержать-проект"><img alt="Донат: USDT" src="https://img.shields.io/badge/%D0%94%D0%BE%D0%BD%D0%B0%D1%82-USDT-26A17B?logo=tether&logoColor=white"></a>
 </p>
 
 <p align="center">
@@ -44,6 +45,7 @@
 - [Безопасность](#безопасность)
 - [Сборка из исходников](#сборка-из-исходников)
 - [Вопросы и ответы](#вопросы-и-ответы)
+- [Поддержать проект](#поддержать-проект)
 - [Лицензия](#лицензия)
 
 ## Возможности
@@ -270,6 +272,27 @@ build.ps1   полная сборка релиза
 ## Участие в разработке
 
 Баг-репорты, идеи и pull request'ы приветствуются, подробности в [CONTRIBUTING.md](CONTRIBUTING.md).
+
+## Поддержать проект
+
+FL Esports Studio бесплатная, с открытым кодом и без рекламы. Если программа вам пригодилась, можно угостить автора кофе ☕
+
+**USDT TRC-20 (Tron)**
+
+```text
+TVGbahTRp8QjrU4pHxrop7VNdQ5xhoTngZ
+```
+
+**USDT ERC-20 (Ethereum)**
+
+```text
+0x3A0a4287A488C6C8BCFBc8e8acD1409b8ffE48E0
+```
+
+> [!IMPORTANT]
+> Отправляйте только USDT и только в той сети, которая указана у адреса, иначе перевод потеряется. QR-коды для оплаты с телефона есть в разделе [«Донат» на fbads.fun](https://fbads.fun/#donate).
+
+Спасибо! 🙏
 
 ## Лицензия
 
